@@ -52,6 +52,7 @@ jobs:
       - uses: julia-actions/julia-buildpkg@v1
       - name: Add DuckDB_jll version ${{ inputs.duckdb_jll_version }}
         run: |
+          julia --project -e 'using Pkg; pkg"add DuckDB_jll@${{ inputs.duckdb_jll_version }}"'
           julia --project=test -e 'using Pkg; pkg"add DuckDB_jll@${{ inputs.duckdb_jll_version }}"'
       - uses: julia-actions/julia-runtest@v1
         env:
