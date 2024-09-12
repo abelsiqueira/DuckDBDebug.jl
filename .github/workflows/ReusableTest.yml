@@ -23,6 +23,9 @@ on:
         required: false
         type: boolean
         default: false
+      duckdb_jll_version:
+        required: true
+        type: string
     secrets:
       codecov_token:
         required: true
@@ -47,6 +50,9 @@ jobs:
       - name: Use Julia cache
         uses: julia-actions/cache@v2
       - uses: julia-actions/julia-buildpkg@v1
+      - name: Add DuckDB_jll version ${{ inputs.duckdb_jll_version }}
+        run: |
+          julia --project=test -e 'using Pkg; pkg"add DuckDB_jll@${{ inputs.duckdb_jll_version }}"'
       - uses: julia-actions/julia-runtest@v1
         env:
           TMPDIR: "${{ runner.temp }}"
